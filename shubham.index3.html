@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<style>
+#result{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  margin-top: 50px;
+  }
+#style{
+
+  padding: 10px;
+}
+
+
+</style>
+
+<body>
+<input id="search" type= "text" placeholder="Search Photos">
+<Button id="button" onclick="newImage()">Search Image</Button>
+<Button id="save" onclick="searchedImage()">Searched Image</Button>
+<div id="result">
+
+
+</div>
+
+
+
+<script>
+const search = document.getElementById("search");
+let image =document.getElementById("image");
+
+
+
+const API = "pJiPRCEyclOvLw6cprkUCYnHOklRO6R6RQuX03mwvuo";
+const url ="https://api.unsplash.com/search/photos?"
+
+
+function newImage(){
+var result = document.getElementById("result");
+while (result.hasChildNodes()) {  
+  result.removeChild(result.firstChild);
+}
+
+const searchVal =search.value;
+localStorage.setItem("searchVal", searchVal);
+
+
+
+const urlFetch = `${url}client_id=${API}&per_page=15&query=${searchVal}`;
+
+fetch(urlFetch).then(response => response.json()).then(function(value){
+ const data = value.results.map(result => result.urls);
+ console.log(data)
+const imageStore=[];
+localStorage.setItem("image", image);
+ for(let i =0; i<data.length; i++){
+      let img=document.createElement('img');
+img.id="style";
+     
+     img.src=data[i].thumb;
+     result.append(img);  
+imageStore.push(data[i].thumb);
+
+localStorage.setItem("imageStore", JSON. stringify(imageStore));
+ };
+
+});
+}
+
+function searchedImage(){
+ window.open("./shubham.index4.html","_blank");}
+</script>
+</body>
+</html>
